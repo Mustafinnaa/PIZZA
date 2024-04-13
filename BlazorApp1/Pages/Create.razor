@@ -1,0 +1,97 @@
+﻿@page "/create"
+@using System.Threading.Tasks
+
+<h3>Создай свою пиццу</h3>
+
+<div class="mb-3">
+    <label for="ingredients" class="form-label">Выберите ингредиенты:</label>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="ingredient1" checked @onchange="() => ToggleIngredient(0)" />
+        <label class="form-check-label" for="ingredient1">
+            Помидор
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="ingredient2" @onchange="() => ToggleIngredient(1)" />
+        <label class="form-check-label" for="ingredient2">
+            Огурец
+        </label>
+    </div>
+    <div class.form-check>
+        <input class="form-check-input" type="checkbox" value="" id="ingredient3" @onchange="() => ToggleIngredient(1)" />
+        <label class="form-check-label" for="ingredient3">
+            Шампиньоны
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="ingredient4" @onchange="() => ToggleIngredient(1)" />
+        <label class="form-check-label" for="ingredient4">
+            Лук
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="ingredient5" @onchange="() => ToggleIngredient(1)" />
+        <label class="form-check-label" for="ingredient5">
+            Маслины
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="ingredient6" @onchange="() => ToggleIngredient(1)" />
+        <label class="form-check-label" for="ingredient6">
+            Халапеньо
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="ingredient7" @onchange="() => ToggleIngredient(1)" />
+        <label class="form-check-label" for="ingredient7">
+            Моцарелла
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="ingredient8" @onchange="() => ToggleIngredient(1)" />
+        <label class="form-check-label" for="ingredient8">
+            Бекон
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="ingredient9" @onchange="() => ToggleIngredient(1)" />
+        <label class="form-check-label" for="ingredient9">
+            Сыр
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="ingredient10" @onchange="() => ToggleIngredient(1)" />
+        <label class="form-check-label" for="ingredient10">
+            Колбаски охотничьи
+        </label>
+    </div>
+</div>
+
+<button class="btn btn-primary" @onclick="() => BakePizza()">Испечь пиццу</button>
+
+@if (isDialogOpen)
+{
+    <div class="alert alert-info" role="alert">
+        @dialogMessage
+    </div>
+}
+
+@code {
+    private bool[] selectedIngredients = new bool[10];
+    private string dialogMessage = "";
+    private bool isDialogOpen;
+
+    private void ToggleIngredient(int index)
+    {
+        selectedIngredients[index] = !selectedIngredients[index];
+    }
+
+    private async Task BakePizza()
+    {
+        isDialogOpen = true;
+        dialogMessage = "Ваша пицца готова!";
+
+
+        isDialogOpen = false;
+    }
+}

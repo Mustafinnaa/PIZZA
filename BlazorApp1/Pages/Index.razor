@@ -1,0 +1,77 @@
+﻿@page "/pizza"
+
+<PageTitle>Index</PageTitle>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="row">
+            @foreach (var pizza in Pizzas)
+            {
+                <div class="card mb-3" style="max-width: 300px; border: none;">
+                    <div class="card-body" style="border: none;">
+                        <img class="card-img-top" src="@pizza.ImageUrl" alt="Card image cap" style="width: 100%; height: 200px;">
+                        <h5 class="card-title">@pizza.Name</h5>
+                        <p class="card-text">@pizza.Description</p>
+                        <p class="card-text">Стоимость: @pizza.Price</p>
+                        <button class="btn btn-primary" @onclick="() => AddToCart(pizza)">Добавить</button>
+                    </div>
+                </div>
+                <div style="margin: 10px;"></div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="cart">
+    <h3>Корзина</h3>
+    @if (Cart.Count > 0)
+    {
+        <ul>
+            @foreach (var item in Cart)
+            {
+                <li>@item.Name - @item.Price <button class="btn btn-danger" style="margin-left: 10px;" @onclick="() => RemoveFromCart(item)">Удалить</button></li>
+            }
+        </ul>
+        <p>Итоговая стоимость: @CartTotal</p>
+    }
+    else
+    {
+        <p>Корзина пуста</p>
+    }
+</div>
+
+@code {
+    private List<Pizza> Pizzas = new List<Pizza>
+    {
+        new Pizza { Name = "Пицца «Маргарита» (Margherita)", Description = "Состав: томатный соус, моцарелла и орегано", Price = 10, ImageUrl = "https://www.allrecipes.com/thmb/fFW1o307WSqFFYQ3-QXYVpnFj6E=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/48727-Mikes-homemade-pizza-DDMFS-beauty-4x3-BG-2974-a7a9842c14e34ca699f3b7d7143256cf.jpg" },
+        new Pizza { Name = "Пицца «Карбонара» (Carbonara)", Description = "Состав: томатный соус, моцарелла, пармезан, яйца, бекон", Price = 15, ImageUrl = "https://i.pinimg.com/originals/63/a7/cf/63a7cf823cbc743612bc449a222fb46f.jpg" },
+        new Pizza { Name = "Пицца «Крудо» (Crudo)", Description = "Состав: Томатный соус, моцарелла и пармская ветчина", Price = 15, ImageUrl = "https://on-desktop.com/wps/2020Food___Pizza_Tasty_pizza_with_sausage__cheese_and_tomatoes_on_the_table_144406_.jpg" },
+        new Pizza { Name = "Пицца по-апулийски (Pugliese)", Description = "Состав: томатный соус, моцарелла, орегано, лук", Price = 15, ImageUrl = "https://ehlektrostal.ilpatio.ru/wa-data/public/shop/products/03/88/38803/images/768221/768221.900x616.jpg" },
+        new Pizza { Name = "Римская пицца (Romana)", Description = "Состав: томатный соус, моцарелла, анчоусы, каперсы и орегано", Price = 15, ImageUrl = "https://gastrobarmoscow.ru/content/uploads/2022/03/s-lososem-i-krevetkami.jpg" },
+        new Pizza { Name = "Пицца «Эмилиана» (Emiliana)", Description = "Состав: томатный соус, моцарелла, баклажаны, отварной картофель и колбаса", Price = 15, ImageUrl = "https://sirdamuka.ru/upload/iblock/715/7159112892ec9f43d25187e20fafad33.jpg" },
+    };
+
+    private List<Pizza> Cart = new List<Pizza>();
+
+    private decimal CartTotal { get; set; }
+
+    private void AddToCart(Pizza pizza)
+    {
+        Cart.Add(pizza);
+        CartTotal = Cart.Sum(p => p.Price);
+    }
+
+    private void RemoveFromCart(Pizza pizza)
+    {
+        Cart.Remove(pizza);
+        CartTotal = Cart.Sum(p => p.Price);
+    }
+
+    public class Pizza
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public string ImageUrl { get; set; }
+    }
+}
